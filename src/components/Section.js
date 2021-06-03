@@ -1,4 +1,5 @@
 import React, {useState}  from 'react';
+import reactDom from 'react-dom';
 import styled, { keyframes } from 'styled-components';
 
 
@@ -10,6 +11,9 @@ const StyledSection = styled.div`
     align-items: center;
     border: 1px solid black;
     border-radius: 10px;
+
+    position: relative;
+    
 `
 
 const Day = styled.div`
@@ -29,7 +33,6 @@ const WeekendDay = styled(Day)`
     background-color:  #d6e0f5;
     color: black;
 `
-
 
 const ProgressBar = styled.div`
     height: 40px;
@@ -57,14 +60,26 @@ const ProgressSection = styled.div`
 `
 
 const TodayProgress = styled(ProgressBar)`
-    border: 4px solid black;
+    opacity:0.7;
 `
 
 const Form = styled.div`
-    padding-left: 2%;
     font-weight: 600;
     text-align: center;
+    padding: 1% 0 1.5% 0;
+    border:none;
+    font-weight: 600;
+    position: absolute;
+    left: 57%;
+    transform: translateX(-57%);
+    width: 30%;
 `;
+
+const sectionDivAlignment = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+}
 
 const Section = ({text, progress, day}) => {
         const isWeekend = text.startsWith('S') //checking if weekend
@@ -73,43 +88,56 @@ const Section = ({text, progress, day}) => {
         const isToday = day === todayDayOftheWeek
 
         //form:
-        const [value, setValue] = useState(''); //value = useState(), setvalue =fn()
+        const [value, setValue] = useState(''); //initial value of the state: value = useState(), setvalue =fn()
+
+        
         const onChange = (event) => {
-            console.log("CHANGE")
-            setValue(event.target.value)
+            console.log("CHANGE");
+            setValue(event.target.value);
         }
 
-    return(
-       <StyledSection > 
-                {isWeekend && <WeekendDay>{text}</WeekendDay>}
-                {!isWeekend && <Day>{text}</Day>}
+
+        //button click:
+        const [isClicked, toggleClick] = useState('false');
+       
+
+        const buttonClick = () => {
+                toggleClick(prevClicked => !prevClicked);
+        }
+
         
-                <Form>
-                        <form>
-                            <label>
-                                Score:
-                                <select onChange={onChange}>
-                                    <option>0%</option>
-                                    <option>10%</option>
-                                    <option>20%</option>
-                                    <option>30%</option>
-                                    <option>40%</option>
-                                    <option>50%</option>
-                                    <option>60%</option>
-                                    <option>70%</option>
-                                    <option>80%</option>
-                                    <option>90%</option>
-                                    <option>100%</option>
-                                </select>
-                            </label>
-                        </form>
-                </Form>
-                
-                <ProgressSection>
-                    {isToday && <TodayProgress  progress={value}></TodayProgress>}
-                    {!isToday && <ProgressBar progress={value}></ProgressBar>}   
-                </ProgressSection>
-       </StyledSection>
+    return(
+        <div style ={sectionDivAlignment}>
+                <StyledSection > 
+                    {isWeekend && <WeekendDay>{text}</WeekendDay>}
+                    {!isWeekend && <Day>{text}</Day>}
+                    <ProgressSection>
+                        {isToday && <TodayProgress progress={value}></TodayProgress>}
+                        {!isToday && <ProgressBar progress={value}></ProgressBar>} 
+                    </ProgressSection>
+                    <Form className ={`${isClicked ? "hidden" : "visible"}`} >
+                                <form>
+                                    <label>
+                                        Score:
+                                        <select onChange={onChange}>
+                                            <option>0%</option>
+                                            <option>10%</option>
+                                            <option>20%</option>
+                                            <option>30%</option>
+                                            <option>40%</option>
+                                            <option>50%</option>
+                                            <option>60%</option>
+                                            <option>70%</option>
+                                            <option>80%</option>
+                                            <option>90%</option>
+                                            <option>100%</option>
+                                        </select>
+                                    </label>
+                                </form>
+                    </Form>
+               </StyledSection>
+                <button onClick={buttonClick}>{`${isClicked? "add score" : "hide seletion"}`} </button>
+        </div>
     )
 }
 

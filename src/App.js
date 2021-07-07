@@ -3,46 +3,46 @@ import styled, { keyframes } from 'styled-components';
 import './App.css';
 import Section from './components/Section'
 
-
-
 const Title = {
-    display: 'flex',
-    width: '100%',
-    height: '100%',
-    justifyContent : 'center',
-    alignItems: 'center',
+    opacity: '0',
+    color: '#191919',
     fontSize: '2.5vw',
-    color: 'white',
-    textShadow: '5px 5px 0px #eb452b',   
+    animation: 'down .8s forwards',
+    animationTimingFunction: 'cubic-bezier(0.280, 0.840, 0.420, 1)',
+    animationDelay: '0.9s',
+    fontFamily: 'Bree Serif, serif',
+    letterSpacing: '3px'
 }
 
 const App = () => {
   return (
     <div className="App">
-            <div style={Title}>
-                <h1>Week Progress Tracker</h1>
-            </div>
-            <div >
-                <Section day ={1} progress=""  text="Mon"/>
-            </div>
-            <div>
-                <Section day ={2} progress=""  text="Tue"/>
-            </div>
-            <div>
-                <Section day ={3} progress=""  text="Wed"/>
-            </div>
-            <div>
-                <Section day ={4} progress=""  text="Thu"/>
-            </div>
-            <div>
-                <Section day ={5} progress=""  text="Fri"/>
-            </div>
-            <div>
-                <Section day ={6} progress=""  text="Sat"/>
-            </div>
-            <div>
-                <Section day ={0} progress=""  text="Sun"/>
-            </div>
+        <div className="container">
+                <div style={Title}>
+                    <h1>Week Progress<br></br><span>Tracker</span></h1>
+                </div>
+                <div >
+                    <Section day ={1} progress=""  text="M"/>
+                </div>
+                <div>
+                    <Section day ={2} progress=""  text="T"/>
+                </div>
+                <div>
+                    <Section day ={3} progress=""  text="W"/>
+                </div>
+                <div>
+                    <Section day ={4} progress=""  text="Th"/>
+                </div>
+                <div>
+                    <Section day ={5} progress=""  text="F"/>
+                </div>
+                <div>
+                    <Section day ={6} progress=""  text="Sa"/>
+                </div>
+                <div>
+                    <Section day ={0} progress=""  text="Su"/>
+                </div>
+        </div>
     </div>
   );
 }

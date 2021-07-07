@@ -4,41 +4,42 @@ import styled, { keyframes } from 'styled-components';
 
 
 const StyledSection = styled.div`
-    background-color: pink;
-    width: 50vw;
+    color:#333333;
+    font-size: 1.7vw;
+    width: 40vw;
     display:flex;
     justify-content: flex-start;
     align-items: center;
-    border: 1px solid black;
-    border-radius: 10px;
-
     position: relative;
-    
+    margin-top: 3%;
+    border-bottom: 2px solid #999999;
+        &:hover{
+            border-bottom: 2px solid black;
+            font-size: 2.3vw;
+            animation: dayTexthover .3s;
+        }
 `
 
 const Day = styled.div`
-    background-color: #00134d;
     line-height: 30px;
     min-width:15%;
-    font-size: 2vw;
     font-weight:bold;
-    border-right:1px solid gray;
-    border-radius:10px;
-    text-align:center;
+    border-radius:2px;
+    text-align: center;
     padding: 3% 0 3% 0;
-    color: white;
+    opacity:0;
+    animation: left .2s ease-out forwards;
+    animation-delay: 0.2s;
 `
 
 const WeekendDay = styled(Day)`
-    background-color:  #d6e0f5;
-    color: black;
+    color: #333333;
 `
 
 const ProgressBar = styled.div`
-    height: 40px;
+    height: 3px;
     width: ${({progress}) =>  progress || '0%' };   
-    background-color: ${ ({progress}) =>{
-
+    background-color: ${ ({progress}) => {
             let stringValue = progress //extracting string value
             let noPercent = stringValue.slice(0,-1) //getting rid of percentage in the string
             let numericValue = parseInt(noPercent) //changing to numeric value
@@ -55,7 +56,7 @@ const ProgressBar = styled.div`
 `
    
 const ProgressSection = styled.div`
-    width:100%;
+    width: 95%;
     margin-left: 1%;
 `
 
@@ -64,22 +65,50 @@ const TodayProgress = styled(ProgressBar)`
 `
 
 const Form = styled.div`
+    width: 84%;
+    background-color: white;
     font-weight: 600;
     text-align: center;
-    padding: 1% 0 1.5% 0;
+    padding: .3% 0 .5% 0;
     border:none;
-    font-weight: 600;
+    border-radius: 30px;
     position: absolute;
-    left: 57%;
-    transform: translateX(-57%);
-    width: 30%;
+    left: 100%;
+    transform: translateX(-100%);
+    z-index: 1;
+    background-color: rgb(255,255,255, 0.5);
 `;
+
+const Button = styled.button `
+    cursor: pointer;
+    margin-left: 3%;
+    margin-top: 3%;
+    width: 3em;
+    height: 2.5em;
+    padding: 0.4% 0 0.5% 0;
+    border-radius: 50%;
+    border: 2px solid black;
+    font-weight: 600;
+    font-size: .8em;
+    background-color: #FCE1D6;
+    color: #191919;
+    animation: right .2s ease-in-out forwards;
+    animation-delay: .5s;
+    opacity: 0;
+    &:hover {
+        background-color: #191919; 
+        color: #FCE1D6;
+    }
+`
+
 
 const sectionDivAlignment = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
 }
+
+
 
 const Section = ({text, progress, day}) => {
         const isWeekend = text.startsWith('S') //checking if weekend
@@ -88,24 +117,21 @@ const Section = ({text, progress, day}) => {
         const isToday = day === todayDayOftheWeek
 
         //form:
-        const [value, setValue] = useState(''); //initial value of the state: value = useState(), setvalue =fn()
+        const [value, setValue] = useState(''); //initial value of the state: value = useState(), setvalue = fn()
 
         
         const onChange = (event) => {
-            console.log("CHANGE");
             setValue(event.target.value);
         }
 
 
         //button click:
         const [isClicked, toggleClick] = useState('false');
-       
 
         const buttonClick = () => {
                 toggleClick(prevClicked => !prevClicked);
         }
 
-        
     return(
         <div style ={sectionDivAlignment}>
                 <StyledSection > 
@@ -118,8 +144,8 @@ const Section = ({text, progress, day}) => {
                     <Form className ={`${isClicked ? "hidden" : "visible"}`} >
                                 <form>
                                     <label>
-                                        Score:
                                         <select onChange={onChange}>
+                                            <option>Select</option>
                                             <option>0%</option>
                                             <option>10%</option>
                                             <option>20%</option>
@@ -136,7 +162,7 @@ const Section = ({text, progress, day}) => {
                                 </form>
                     </Form>
                </StyledSection>
-                <button onClick={buttonClick}>{`${isClicked? "add score" : "hide seletion"}`} </button>
+               <Button  onClick={buttonClick}>{`${isClicked? "+" : "-"}`} </Button>
         </div>
     )
 }
